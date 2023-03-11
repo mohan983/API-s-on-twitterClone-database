@@ -195,38 +195,20 @@ app.post("/user/tweets/", authenticateToken, async (request, response) => {
 
 //API_11
 
-app.delete("/tweets/:tweetId/", async (request, response) => {
-  const { tweetId } = request.params;
-  const authenticateToken = (request, response, next) => {
-    let jwtToken;
-    const authHeader = request.headers["authorization"];
-    if (authHeader !== undefined) {
-      jwtToken = authHeader.split(" ")[1];
-    } else {
-      response.status(401);
-      response.send("Invalid Request");
-    }
-    if (jwtToken === undefined) {
-      response.status(401);
-      response.send("Invalid Request");
-    } else {
-      jwt.verify(jwtToken, "MY_SECRET_TOKEN", async (error, payload) => {
-        if (error) {
-          response.status(401);
-          response.send("Invalid JWT Token");
-        } else {
-          const deleteTweetDetails = `
+app.delete(
+  "/tweets/:tweetId/",
+  authenticateToken,
+  async (request, response) => {
+    const { tweetId } = request.params;
+    const deleteTweetDetails = `
     DELETE FROM
       tweet
     WHERE
       tweet_id='${tweetId}';
       `;
-          const dbResponse = await db.run(deleteTweetDetails);
-          response.send("Tweet Removed");
-        }
-      });
-    }
-  };
-});
+    const dbResponse = await db.run(deleteTweetDetails);
+    response.send("Tweet Removed");
+  }
+);
 
 module.exports = app;
