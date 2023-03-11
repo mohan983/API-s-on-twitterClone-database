@@ -1,0 +1,28 @@
+POST http://localhost:3000/register/
+Content-Type: application/json
+
+{
+  "username": "JoeBiden",
+  "password": "richard_567",
+  "name": "Adam Richard",
+  "gender": "male"
+}
+###
+
+POST http://localhost:3000/login/
+Content-Type: application/json
+
+{
+  "username":"JoeBiden",
+  "password":"biden@123"
+}
+###
+
+GET http://localhost:3000/user/followers/
+###
+
+GET http://localhost:3000/user/following/
+###
+
+DELETE http://localhost:3000/tweets/3/
+###
